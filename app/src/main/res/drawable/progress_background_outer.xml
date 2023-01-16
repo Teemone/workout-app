@@ -4,6 +4,6 @@
     android:shape="ring"
     android:thicknessRatio="50.0"
     >
-    <solid android:color="?attr/colorSecondary" />
+    <solid android:color="@color/hot_pink" />
     <size android:width="100dp" android:height="100dp"/>
 </shape>

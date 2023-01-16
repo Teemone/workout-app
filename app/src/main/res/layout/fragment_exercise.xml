@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     tools:context=".ExerciseFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,6 +22,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/iv_exercise"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:contentDescription="Exercise image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tv_instruction"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolBar2" />
+
+
+        <TextView
+            android:id="@+id/tv_instruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="183dp"
+            android:textAlignment="center"
+            android:text="@string/get_ready"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
+            android:textColor="?attr/colorOnBackground"
+            app:layout_constraintBottom_toTopOf="@id/fl_countdown"
+            app:layout_constraintEnd_toEndOf="@id/fl_countdown"
+            app:layout_constraintStart_toStartOf="@id/fl_countdown"
+            app:layout_constraintTop_toBottomOf="@+id/toolBar2"
+            app:layout_constraintVertical_bias="1.0" />
+
         <FrameLayout
             android:id="@+id/fl_countdown"
             android:layout_width="wrap_content"
@@ -27,7 +57,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolBar2">
+            app:layout_constraintTop_toBottomOf="@id/iv_exercise">
 
             <View
                 android:layout_width="115dp"
@@ -42,7 +72,6 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:indeterminate="false"
-                android:max="10"
                 android:progressDrawable="@drawable/progress_background_outer"
                 android:rotation="-90" />
 
@@ -52,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textColor="?colorOnPrimary"
-                android:textSize="21sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 tools:text="10" />
 
