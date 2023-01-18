@@ -1,5 +1,6 @@
 package com.example.workoutapp
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
@@ -26,10 +27,11 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener{
     private var param1: String? = null
     private var param2: String? = null
     private var _binding: FragmentExerciseBinding? = null
-    private val binding get() = _binding!!
     private var cdTimer: CountDownTimer? = null
     private var mLayout: ConstraintLayout? = null
     private var exercises: ArrayList<Exercises>? = null
+    private var mPlayer: MediaPlayer? = null
+    private val binding get() = _binding!!
     private var currentPosition = 0
     private var duration: Long = 0
     private var progress = 0
@@ -66,12 +68,18 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener{
             val toHomeFragment =
                 ExerciseFragmentDirections.actionExerciseFragmentToHomeFragment()
             view.findNavController().navigate(toHomeFragment)
+            if (mPlayer?.isPlaying == true)
+                stopSound()
+
         }
         binding.ivExercise.visibility = View.INVISIBLE
         textToSpeech =  TextToSpeech(requireContext(), this)
 
         restCountdownSetup()
     }
+
+
+
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS){
@@ -81,14 +89,32 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener{
             Log.e("INIT","INIT FAILED!!" )
     }
 
-    private fun speak(str: String){
+    private fun speak(str: String) =
        textToSpeech?.speak(str, TextToSpeech.QUEUE_FLUSH, null, "")
+
+
+    private fun playSound(soundRes: Int){
+        try {
+            mPlayer = MediaPlayer.create(
+                requireContext(),
+                soundRes
+            )
+            mPlayer?.isLooping = false
+            mPlayer?.start()
+        }
+        catch (e: Exception){
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopSound() {
+        mPlayer?.stop()
     }
 
     private fun restCountdownSetup(){
         val getReadyText = getString(R.string.get_ready, exercises!![currentPosition].name)
         binding.tvInstruction.text = getReadyText.uppercase()
-        speak(getReadyText)
+//        speak(getReadyText)
 
         duration = exercises!![currentPosition].duration
         durationToInt = (duration/1000).toInt()
@@ -112,6 +138,55 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener{
         exerciseCountdown()
     }
 
+    private fun restCountdown() {
+        progress = 0
+        binding.pbCountdown.max = pbRestMax
+        binding.pbCountdown.visibility = View.VISIBLE
+        playSound(R.raw.tick_tok_timer)
+
+        cdTimer = object : CountDownTimer(Constants.DEFAULT_REST_COUNTDOWN, Constants.DEFAULT_COUNTDOWN_INTERVAL) {
+            override fun onTick(millisUntilFinished: Long) {
+                progress++
+                binding.tvCounter.text = "${pbRestMax - progress}"
+                binding.pbCountdown.progress = pbRestMax - progress
+            }
+
+            override fun onFinish() {
+                stopSound()
+                exerciseCountdownSetup()
+            }
+
+        }.start()
+    }
+
+    private fun exerciseCountdown() {
+        progress = 0
+        binding.pbCountdown.max = durationToInt
+        binding.pbCountdown.visibility = View.VISIBLE
+        playSound(R.raw.start_sound)
+        cdTimer = object : CountDownTimer(duration, Constants.DEFAULT_COUNTDOWN_INTERVAL) {
+            override fun onTick(millisUntilFinished: Long) {
+                progress++
+                binding.tvCounter.text = "${durationToInt - progress}"
+                binding.pbCountdown.progress = durationToInt - progress
+            }
+
+            override fun onFinish() {
+                currentPosition++
+                if (currentPosition < exercises!!.size){
+                    restCountdownSetup()
+                }else{
+                    changeCountdownPosition(false)
+                    binding.flCountdown.visibility = View.INVISIBLE
+                    binding.ivExercise.visibility = View.INVISIBLE
+                    binding.tvInstruction.text =
+                        getString(R.string.completed_daily_workout)
+                    stopSound()
+                }
+            }
+        }.start()
+    }
+
     private fun changeCountdownPosition(changePosition: Boolean) {
         if (changePosition) {
             set.connect(
@@ -132,50 +207,6 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener{
         set.applyTo(mLayout)
     }
 
-    private fun restCountdown() {
-        progress = 0
-        binding.pbCountdown.max = pbRestMax
-        binding.pbCountdown.visibility = View.VISIBLE
-        cdTimer = object : CountDownTimer(Constants.DEFAULT_REST_COUNTDOWN, Constants.DEFAULT_COUNTDOWN_INTERVAL) {
-            override fun onTick(millisUntilFinished: Long) {
-                progress++
-                binding.tvCounter.text = "${pbRestMax - progress}"
-                binding.pbCountdown.progress = pbRestMax - progress
-            }
-
-            override fun onFinish() {
-                exerciseCountdownSetup()
-            }
-
-        }.start()
-    }
-
-    private fun exerciseCountdown() {
-        progress = 0
-        binding.pbCountdown.max = durationToInt
-        binding.pbCountdown.visibility = View.VISIBLE
-        cdTimer = object : CountDownTimer(duration, Constants.DEFAULT_COUNTDOWN_INTERVAL) {
-            override fun onTick(millisUntilFinished: Long) {
-                progress++
-                binding.tvCounter.text = "${durationToInt - progress}"
-                binding.pbCountdown.progress = durationToInt - progress
-            }
-
-            override fun onFinish() {
-                currentPosition++
-                if (currentPosition < exercises!!.size){
-                    restCountdownSetup()
-                }else{
-                    changeCountdownPosition(false)
-                    binding.flCountdown.visibility = View.INVISIBLE
-                    binding.ivExercise.visibility = View.INVISIBLE
-                    binding.tvInstruction.text =
-                        getString(R.string.completed_daily_workout)
-
-                }
-            }
-        }.start()
-    }
 
 
     override fun onDestroyView() {
@@ -186,6 +217,8 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener{
         duration = 0
         textToSpeech?.stop()
         textToSpeech?.shutdown()
+        mPlayer?.stop()
+        mPlayer?.release()
         _binding = null
     }
 
