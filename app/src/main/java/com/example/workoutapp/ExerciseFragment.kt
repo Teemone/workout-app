@@ -2,6 +2,7 @@ package com.example.workoutapp
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,17 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.workoutapp.databinding.FragmentExerciseBinding
-import com.google.android.material.snackbar.Snackbar
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private const val pbRestMax = 10
 
-class ExerciseFragment : Fragment() {
+class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener{
     private lateinit var set: ConstraintSet
+    private var textToSpeech: TextToSpeech? = null
     private var param1: String? = null
     private var param2: String? = null
     private var _binding: FragmentExerciseBinding? = null
@@ -29,11 +33,8 @@ class ExerciseFragment : Fragment() {
     private var currentPosition = 0
     private var duration: Long = 0
     private var progress = 0
-    private var pbRestMax = 10
     private var durationToInt = 0
     private var pbMax = 0
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,14 +46,12 @@ class ExerciseFragment : Fragment() {
         set = ConstraintSet()
         exercises = Constants.returnExercises()
 
-
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentExerciseBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -63,22 +62,38 @@ class ExerciseFragment : Fragment() {
         mLayout = binding.cl1
         set.clone(mLayout)
         binding.toolBar2.setNavigationIcon(R.drawable.ic_back)
-        binding.toolBar2.navigationIcon
         binding.toolBar2.setNavigationOnClickListener {
             val toHomeFragment =
                 ExerciseFragmentDirections.actionExerciseFragmentToHomeFragment()
             view.findNavController().navigate(toHomeFragment)
         }
         binding.ivExercise.visibility = View.INVISIBLE
+        textToSpeech =  TextToSpeech(requireContext(), this)
+
         restCountdownSetup()
     }
 
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS){
+            textToSpeech?.language = Locale.ENGLISH
+        }
+        else
+            Log.e("INIT","INIT FAILED!!" )
+    }
+
+    private fun speak(str: String){
+       textToSpeech?.speak(str, TextToSpeech.QUEUE_FLUSH, null, "")
+    }
+
     private fun restCountdownSetup(){
+        val getReadyText = getString(R.string.get_ready, exercises!![currentPosition].name)
+        binding.tvInstruction.text = getReadyText.uppercase()
+        speak(getReadyText)
+
         duration = exercises!![currentPosition].duration
         durationToInt = (duration/1000).toInt()
         pbMax = durationToInt
 
-        binding.tvInstruction.text = getString(R.string.get_ready, exercises!![currentPosition].name).uppercase()
         changeCountdownPosition(false)
         binding.ivExercise.visibility = View.INVISIBLE
         restCountdown()
@@ -86,12 +101,13 @@ class ExerciseFragment : Fragment() {
 
 
     private fun exerciseCountdownSetup(){
+        val exerciseName = exercises!![currentPosition].name
         binding.ivExercise.visibility = View.VISIBLE
         binding.ivExercise.setImageResource(
             exercises!![currentPosition].image
         )
-        binding.tvInstruction.text = exercises!![currentPosition].name.uppercase()
-
+        binding.tvInstruction.text = exerciseName.uppercase()
+        speak(exerciseName)
         changeCountdownPosition(true)
         exerciseCountdown()
     }
@@ -154,7 +170,7 @@ class ExerciseFragment : Fragment() {
                     binding.flCountdown.visibility = View.INVISIBLE
                     binding.ivExercise.visibility = View.INVISIBLE
                     binding.tvInstruction.text =
-                        "Congratulations! You completed your daily workout"
+                        getString(R.string.completed_daily_workout)
 
                 }
             }
@@ -168,7 +184,11 @@ class ExerciseFragment : Fragment() {
             cdTimer?.cancel()
         progress = 0
         duration = 0
+        textToSpeech?.stop()
+        textToSpeech?.shutdown()
         _binding = null
     }
+
+
 
 }
