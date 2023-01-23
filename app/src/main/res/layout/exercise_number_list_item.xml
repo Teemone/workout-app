@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_exercise_item"
+    android:layout_width="24dp"
+    android:layout_margin="5dp"
+    android:padding="0dp"
+    android:background="@drawable/item_bg_not_completed"
+    android:layout_height="24dp">
+    <TextView
+        android:id="@+id/tv_item_number"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?colorOnPrimary"
+        android:textAlignment="center"
+        tools:text="1"
+        />
+</FrameLayout>
+
+
+

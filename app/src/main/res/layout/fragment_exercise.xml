@@ -24,15 +24,15 @@
 
         <ImageView
             android:id="@+id/iv_exercise"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="10dp"
             android:contentDescription="Exercise image"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tv_instruction"
-            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolBar2" />
+            app:layout_constraintTop_toBottomOf="@id/toolBar2"
+            app:layout_constraintVertical_bias="0.5" />
 
 
         <TextView
@@ -40,8 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="183dp"
-            android:textAlignment="center"
             android:text="@string/get_ready"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
             android:textColor="?attr/colorOnBackground"
             app:layout_constraintBottom_toTopOf="@id/fl_countdown"
@@ -54,10 +54,11 @@
             android:id="@+id/fl_countdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/rv_exercises"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_exercise">
+            app:layout_constraintTop_toBottomOf="@id/iv_exercise"
+            app:layout_constraintVertical_chainStyle="spread">
 
             <View
                 android:layout_width="115dp"
@@ -87,6 +88,22 @@
 
 
         </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_exercises"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fl_countdown"
+            app:layout_constraintVertical_bias="1"
+            tools:listitem="@layout/exercise_number_list_item">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
