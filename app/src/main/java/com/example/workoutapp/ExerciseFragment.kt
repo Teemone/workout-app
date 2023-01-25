@@ -1,5 +1,6 @@
 package com.example.workoutapp
 
+import android.app.Dialog
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -8,10 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.workoutapp.databinding.DialogOnBackPressedBinding
 import com.example.workoutapp.databinding.FragmentExerciseBinding
 import java.util.*
 import kotlin.collections.ArrayList
@@ -23,6 +27,7 @@ private const val pbRestMax = 10
 
 class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
     private lateinit var set: ConstraintSet
+    private lateinit var dialog: Dialog
     private var textToSpeech: TextToSpeech? = null
     private var param1: String? = null
     private var param2: String? = null
@@ -47,6 +52,19 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
         }
         set = ConstraintSet()
         exercises = Constants.returnExercises()
+
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    goBackDialog()
+//                    if (isEnabled) {
+//                        isEnabled = false
+//                        requireActivity().onBackPressed()
+//                    }
+                }
+            }
+            )
 
     }
 
@@ -79,6 +97,27 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
         restCountdownSetup()
     }
 
+    private fun goBackDialog() {
+        dialog = Dialog(requireContext())
+        dialog.setTitle("Are you sure?")
+        val dialogBinding = DialogOnBackPressedBinding.inflate(layoutInflater)
+        dialog.setContentView(dialogBinding.root)
+        dialog.setCancelable(false)
+        dialog.show()
+
+        dialogBinding.btnYes.setOnClickListener {
+            findNavController().navigate(
+                ExerciseFragmentDirections.actionExerciseFragmentToHomeFragment()
+            )
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+    }
+
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
@@ -89,6 +128,10 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
 
     private fun speak(str: String) =
         textToSpeech?.speak(str, TextToSpeech.QUEUE_FLUSH, null, "")
+
+    private fun stopSpeaking() =
+        textToSpeech?.stop()
+
 
 
     private fun playSound(soundRes: Int) {
