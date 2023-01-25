@@ -6,4 +6,7 @@
     <string name="get_ready">get ready for %s</string>
     <string name="start_exercise">start exercise</string>
     <string name="completed_daily_workout">Congratulations! You completed your daily workout</string>
+    <string name="no_i_want_to_continue">No, i want to continue</string>
+    <string name="yes_i_want_to_stop">Yes, i want to stop</string>
+    <string name="are_you_sure_you_want_to_exit_going_back_now_will_cancel_your_current_workout">Are you sure you want to exit? Going back now will cancel your current workout!</string>
 </resources>
