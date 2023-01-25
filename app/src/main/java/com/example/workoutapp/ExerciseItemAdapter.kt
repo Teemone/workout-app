@@ -20,12 +20,21 @@ class ExerciseItemAdapter(val itemList: ArrayList<Exercises>):
 
     override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         holder.tvItemNumber.text = "${itemList[position].id + 1}"
+        when {
+            itemList[position].isCompleted -> {
+                holder.flExerciseItem.background =
+                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.item_bg_completed)
+                holder.tvItemNumber.visibility = View.INVISIBLE
+            }
 
-        if (itemList[position].isCompleted){
-            holder.flExerciseItem.background =
-                ContextCompat.getDrawable(holder.itemView.context, R.drawable.item_bg_completed)
-            holder.tvItemNumber.visibility = View.INVISIBLE
-//            notifyItemChanged(position)
+            itemList[position].isSelected -> {
+                holder.flExerciseItem.background =
+                    ContextCompat.getDrawable(holder.itemView.context, R.drawable.item_bg_selected)
+                holder.tvItemNumber.setTextColor(
+                    ContextCompat.
+                    getColor(holder.itemView.context, R.color.deep_purple)
+                )
+            }
         }
     }
 

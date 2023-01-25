@@ -68,8 +68,8 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
             val toHomeFragment =
                 ExerciseFragmentDirections.actionExerciseFragmentToHomeFragment()
             view.findNavController().navigate(toHomeFragment)
-            if (mPlayer?.isPlaying == true)
-                stopSound()
+//            if (mPlayer?.isPlaying == true)
+//                stopSound()
 
         }
         binding.ivExercise.visibility = View.INVISIBLE
@@ -120,6 +120,10 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
         changeCountdownPosition(false)
         binding.ivExercise.visibility = View.INVISIBLE
         binding.rvExercises.visibility = View.GONE
+
+        exercises!![currentPosition].isSelected = true
+        binding.rvExercises.adapter = ExerciseItemAdapter(exercises!!)
+
         restCountdown()
     }
 
@@ -132,9 +136,10 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
             exercises!![currentPosition].image
         )
         binding.tvInstruction.text = exerciseName.uppercase()
-        speak(exerciseName)
+//        speak(exerciseName)
         changeCountdownPosition(true)
         binding.rvExercises.visibility = View.VISIBLE
+
         exerciseCountdown()
     }
 
@@ -142,10 +147,10 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
         progress = 0
         binding.pbCountdown.max = pbRestMax
         binding.pbCountdown.visibility = View.VISIBLE
-        playSound(R.raw.tick_tok_timer)
+//        playSound(R.raw.tick_tok_timer)
 
         cdTimer = object :
-            CountDownTimer(Constants.DEFAULT_REST_COUNTDOWN, Constants.DEFAULT_COUNTDOWN_INTERVAL) {
+            CountDownTimer(1000, Constants.DEFAULT_COUNTDOWN_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
                 progress++
                 binding.tvCounter.text = "${pbRestMax - progress}"
@@ -153,7 +158,7 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
             }
 
             override fun onFinish() {
-                stopSound()
+//                stopSound()
                 exerciseCountdownSetup()
             }
 
@@ -164,8 +169,8 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
         progress = 0
         binding.pbCountdown.max = durationToInt
         binding.pbCountdown.visibility = View.VISIBLE
-        playSound(R.raw.start_sound)
-        cdTimer = object : CountDownTimer(duration, Constants.DEFAULT_COUNTDOWN_INTERVAL) {
+//        playSound(R.raw.start_sound)
+        cdTimer = object : CountDownTimer(1000, Constants.DEFAULT_COUNTDOWN_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
                 progress++
                 binding.tvCounter.text = "${durationToInt - progress}"
@@ -184,7 +189,7 @@ class ExerciseFragment : Fragment(), TextToSpeech.OnInitListener {
                     binding.ivExercise.visibility = View.INVISIBLE
                     binding.tvInstruction.text =
                         getString(R.string.completed_daily_workout)
-                    stopSound()
+//                    stopSound()
 
                 }
             }

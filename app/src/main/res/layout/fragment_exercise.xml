@@ -16,7 +16,6 @@
             android:id="@+id/toolBar2"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="?colorPrimary"
             android:theme="@style/ToolBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
