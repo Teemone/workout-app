@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
     tools:context=".HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,7 +28,7 @@
             android:layout_height="300dp"
             android:contentDescription="@string/workout_image"
             android:src="@drawable/workout"
-            app:layout_constraintBottom_toTopOf="@+id/flButton"
+            app:layout_constraintBottom_toTopOf="@+id/flButtonStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +36,7 @@
             app:layout_constraintVertical_chainStyle="spread_inside" />
 
         <FrameLayout
-            android:id="@+id/flButton"
+            android:id="@+id/flButtonStart"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginBottom="@dimen/parent_padding_10"
@@ -45,7 +46,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/iv_workout"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/iv_workout"
+            app:layout_constraintStart_toEndOf="@id/flButtonBMI"
             app:layout_constraintTop_toBottomOf="@+id/iv_workout">
 
             <TextView
@@ -59,6 +60,33 @@
                 android:textColor="?colorOnPrimary"
                 android:textStyle="bold"
                 tools:text="Start" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/flButtonBMI"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/round_button_ripple_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="@id/flButtonStart"
+            app:layout_constraintEnd_toStartOf="@id/flButtonStart"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/flButtonStart">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/BMI"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?colorOnPrimary"
+                android:textStyle="bold"
+                tools:text="@string/BMI" />
 
         </FrameLayout>
 

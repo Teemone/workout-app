@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.fragment.findNavController
 import com.example.workoutapp.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -29,11 +29,19 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolBar.title = getString(R.string.app_name)
-        binding.flButton.setOnClickListener {
+        binding.flButtonStart.setOnClickListener {
             val toExerciseFragment =
                 HomeFragmentDirections.actionHomeFragmentToExerciseFragment()
             view.findNavController().navigate(toExerciseFragment)
         }
+
+        binding.flButtonBMI.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToBmiFragment()
+            )
+        }
+
+
     }
 
     override fun onDestroyView() {
