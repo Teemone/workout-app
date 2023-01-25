@@ -9,4 +9,9 @@
     <string name="no_i_want_to_continue">No, i want to continue</string>
     <string name="yes_i_want_to_stop">Yes, i want to stop</string>
     <string name="are_you_sure_you_want_to_exit_going_back_now_will_cancel_your_current_workout">Are you sure you want to exit? Going back now will cancel your current workout!</string>
+    <string name="BMI">BMI</string>
+    <string name="calculate_bmi">calculate bmi</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="your_bmi_is">Your BMI is %.2f</string>
 </resources>
