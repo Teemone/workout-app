@@ -11,6 +11,7 @@
         <item name="colorSecondary">@color/purple</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="colorAccent">@color/purple</item>
         <item name="android:fontFamily">@font/concert_one_reg</item>
 
         <!-- Status bar color. -->

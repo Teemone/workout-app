@@ -1,92 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?backgroundColor"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".BmiFragment">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:id="@+id/toolbar"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/rgSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/radio_group_background"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/radio_btn_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/metric_unit"
+            android:textSize="18sp"
+            android:textColor="@drawable/radio_btn_text_color_selector" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/radio_btn_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:text="@string/us_unit"
+            android:textColor="@drawable/radio_btn_text_color_selector" />
+
+    </RadioGroup>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:padding="@dimen/parent_padding_10"
-        android:layout_height="wrap_content">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            app:suffixText="cm"
             android:id="@+id/til_height"
-            android:hint="@string/height"
             style="?textInputOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/height"
             app:endIconMode="clear_text"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="wrap_content">
+            app:suffixText="cm">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
                 android:id="@+id/et_height"
-                android:inputType="number"
-                android:layout_height="match_parent"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            app:suffixText="kg"
             android:id="@+id/til_weight"
             style="?textInputOutlinedStyle"
-            android:hint="@string/weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:hint="@string/weight"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_height"
-            android:layout_height="wrap_content">
+            app:suffixText="kg">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
                 android:id="@+id/et_weight"
-                android:inputType="number"
-                android:layout_height="match_parent"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:id="@+id/tv_yourBmi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_weight"
-            tools:text="Your bmi is 25"
-            android:id="@+id/tv_yourBmi"
-            android:visibility="gone"
-            android:textSize="16sp"
-            android:textColor="?colorOnBackground"
             android:layout_marginTop="15dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?colorOnBackground"
+            android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/btnCalculate"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_weight"
+            tools:text="Your bmi is 25" />
 
         <Button
+            android:id="@+id/btnCalculate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/btnCalculate"
-            android:textSize="18sp"
             android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_yourBmi"
+            android:text="@string/calculate_bmi"
             android:textAppearance="?textAppearanceButton"
-            android:text="@string/calculate_bmi"/>
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_yourBmi" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
