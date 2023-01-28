@@ -28,6 +28,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <RadioButton
+            android:id="@+id/rb_metric"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_weight="0.5"
@@ -35,19 +36,20 @@
             android:button="@null"
             android:gravity="center"
             android:text="@string/metric_unit"
-            android:textSize="18sp"
-            android:textColor="@drawable/radio_btn_text_color_selector" />
+            android:textColor="@drawable/radio_btn_text_color_selector"
+            android:textSize="18sp" />
 
         <RadioButton
+            android:id="@+id/rb_usUnit"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_weight="0.5"
             android:background="@drawable/radio_btn_selector"
             android:button="@null"
             android:gravity="center"
-            android:textSize="18sp"
             android:text="@string/us_unit"
-            android:textColor="@drawable/radio_btn_text_color_selector" />
+            android:textColor="@drawable/radio_btn_text_color_selector"
+            android:textSize="18sp" />
 
     </RadioGroup>
 
@@ -60,36 +62,15 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_height"
-            style="?textInputOutlinedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/height"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:suffixText="cm">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_height"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="number" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_weight"
             style="?textInputOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:hint="@string/weight"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_height"
+            app:layout_constraintTop_toTopOf="parent"
             app:suffixText="kg">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -100,6 +81,89 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_height"
+            style="?textInputOutlinedStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/height"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_weight"
+            app:suffixText="cm">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_height"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_imperial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/til_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/til_height"
+            android:baselineAligned="false">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_feat"
+                style="?textInputOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="0.5"
+                android:hint="@string/heightFt"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:suffixText="ft">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_feet"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_inches"
+                style="?textInputOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="0dp"
+                android:layout_weight="0.5"
+                android:hint="@string/heightIn"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:suffixText="in">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_inches"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tv_yourBmi"
             android:layout_width="wrap_content"
@@ -108,11 +172,11 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="?colorOnBackground"
             android:textSize="16sp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@id/btnCalculate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_weight"
+            app:layout_constraintTop_toBottomOf="@id/til_height"
             tools:text="Your bmi is 25" />
 
         <Button

@@ -12,6 +12,10 @@
     <string name="BMI">BMI</string>
     <string name="calculate_bmi">calculate bmi</string>
     <string name="height">Height</string>
+    <string name="heightFt">Height (ft)</string>
+    <string name="heightIn">Height (in)</string>
     <string name="weight">Weight</string>
     <string name="your_bmi_is">Your BMI is %.2f</string>
+    <string name="metric_unit">Metric</string>
+    <string name="us_unit">Imperial</string>
 </resources>
